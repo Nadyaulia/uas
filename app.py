@@ -13,11 +13,11 @@ st.write("Silakan lengkapi data berikut untuk mengetahui kategori obesitas Anda.
 # Load pipeline (model + preprocessing)
 @st.cache_resource
 def load_pipeline():
-    return joblib.load("model_pipeline.joblib")  # Pastikan file ini tersedia di folder yang sama
+    return joblib.load("model_pipeline.joblib")
 
 pipeline = load_pipeline()
 
-# Form input
+# Form input pengguna
 with st.form("form_prediksi"):
     Age = st.number_input("Usia", min_value=1, max_value=120, value=25)
     Gender = st.selectbox("Jenis Kelamin", ["Male", "Female"])
@@ -60,9 +60,10 @@ if submitted:
         "MTRANS": MTRANS
     }])
 
-    st.write("Data yang dikirim ke model:")
+    # Tampilkan input
+    st.subheader("Data yang Anda Masukkan:")
     st.dataframe(input_df)
 
     # Prediksi
     prediction = pipeline.predict(input_df)[0]
-    st.success(f"Kategori Obesitas Anda: **{prediction}**")
+    st.success(f"Hasil Prediksi Kategori Obesitas: **{prediction}**")
